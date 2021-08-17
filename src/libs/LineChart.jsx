@@ -28,7 +28,7 @@ const REChart = (props) => {
   const { id, options } = props;
   useEffect(() => {
     if (chartRefInst.current) {
-      chartRefInst.current.setOption(options);
+      chartRefInst.current.setOption(options, true);
     }
   }, [options]);
   useEffect(() => {
@@ -37,7 +37,7 @@ const REChart = (props) => {
       const lineChart =
         echarts.getInstanceByDom(chartRef.current) ||
         echarts.init(chartRef.current);
-      lineChart.setOption(options);
+      lineChart.setOption(options, true);
       chartRefInst.current = lineChart;
     }
   }, []);

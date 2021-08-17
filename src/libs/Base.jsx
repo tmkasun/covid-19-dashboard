@@ -17,6 +17,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
+import StyledSelect from "./StyledSelect";
+
 function HideOnScroll(props) {
   const { children, window } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -66,38 +68,6 @@ export default function HideAppBar(props) {
             <Typography className={classes.title} variant="h6">
               Stats
             </Typography>
-            <Box width="20%">
-              <FormControl
-                fullWidth
-                margin="dense"
-                size="small"
-                variant="outlined"
-                className={classes.formControl}
-              >
-                <InputLabel id="last-x-days-selector-label">Last</InputLabel>
-                <Select
-                  labelId="last-x-days-selector-label"
-                  id="last-x-days-selector"
-                  value={lastXDays}
-                  onChange={(e) => {
-                    setLastXDays(e.target.value);
-                  }}
-                  margin="dense"
-                  MenuProps={{
-                    anchorOrigin: {
-                      vertical: "bottom",
-                      horizontal: "left"
-                    },
-                    getContentAnchorEl: null
-                  }}
-                >
-                  <MenuItem value={7}>Week</MenuItem>
-                  <MenuItem value={30}>Month</MenuItem>
-                  <MenuItem value={90}>3 Months</MenuItem>
-                  <MenuItem value={0}>All</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
             <FormControl component="fieldset">
               <RadioGroup
                 row
@@ -118,17 +88,26 @@ export default function HideAppBar(props) {
                 <FormControlLabel
                   value="Dose1"
                   control={<Radio color="secondary" />}
-                  label="Dose 1"
+                  label={
+                    <>
+                      1<sup>st</sup> Dose
+                    </>
+                  }
                   labelPlacement="top"
                 />
                 <FormControlLabel
                   value="dose2"
                   control={<Radio color="secondary" />}
-                  label="Dose 2"
+                  label={
+                    <>
+                      2<sup>nd</sup> Dose
+                    </>
+                  }
                   labelPlacement="top"
                 />
               </RadioGroup>
             </FormControl>
+            <StyledSelect lastXDays={lastXDays} setLastXDays={setLastXDays} />
           </Toolbar>
         </AppBar>
       </HideOnScroll>

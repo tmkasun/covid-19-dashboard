@@ -18,6 +18,7 @@ String.prototype.capitalize = function () {
  *
  * curl   -H "Accept: application/vnd.github.v3+json"   https://api.github.com/repos/nuuuwan/covid19/contents/?ref=data -o response.json
  *
+ * testing
  *
  * curl   -H "Accept: application/json"   https://raw.githubusercontent.com/nuuuwan/covid19/data/covid19.epid.vaxs.20210129.json -o response.json
  *
@@ -40,8 +41,8 @@ const App = () => {
       const parsedData = await Papa.parse(jsonData);
       setGithubData(parsedData.data);
     };
-    // setGithubData(sampleData.data);
-    asyncFun();
+    setGithubData(sampleData.data);
+    // asyncFun();
   }, []);
   useEffect(() => {
     if (!githubData) {
@@ -202,6 +203,7 @@ const App = () => {
         }
       ]
     };
+    debugger;
     setPieChartOptions(pieOpts);
     setLineChartOptions(opts);
   }, [lastXDays, githubData, dataType]);
