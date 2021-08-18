@@ -41,7 +41,8 @@ var labelOption = {
   rich: {
     percentage: {
       color: "#B03A5B",
-      lineHeight: 14
+      lineHeight: 22,
+      fontSize: 20
     }
   }
 };
