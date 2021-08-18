@@ -114,7 +114,7 @@ export default function HideAppBar(props) {
       </HideOnScroll>
       <Toolbar />
       <Box fontWeight="fontWeightMedium" color="info.main" mt={2}>
-        Last updated: {dayjs().to(dayjs.unix(lastUpdated[0]))}
+        Last updated: {lastUpdated && dayjs().to(dayjs.unix(lastUpdated[0]))}
       </Box>
       <Box mt={5}>
         {isLoading && <LinearProgress />}
