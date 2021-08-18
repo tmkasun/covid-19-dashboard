@@ -5,6 +5,7 @@ import sampleData from "./tests/data";
 
 import LineChart from "./libs/LineChart";
 import PieChart from "./libs/PieChart";
+import BarChart from "./libs/BarChart";
 import Base from "./libs/Base";
 import "./styles.css";
 
@@ -31,6 +32,7 @@ const App = () => {
   const [dataType, setDataType] = useState("total");
   const [githubData, setGithubData] = useState(null);
   const [lastXDays, setLastXDays] = useState(0);
+  const [cumTotal, setCumTotal] = useState(null);
 
   useEffect(() => {
     const asyncFun = async () => {
@@ -41,8 +43,8 @@ const App = () => {
       const parsedData = await Papa.parse(jsonData);
       setGithubData(parsedData.data);
     };
-    setGithubData(sampleData.data);
-    // asyncFun();
+    // setGithubData(sampleData.data);
+    asyncFun();
   }, []);
   useEffect(() => {
     if (!githubData) {
@@ -106,7 +108,13 @@ const App = () => {
         break;
       }
       xAxisData.push(row[1]);
-
+      if (dataIndex === dataSet.length - 1) {
+        const populationComparisonData = {
+          cum_total_dose1: row[cumulativeTotalDoses.cum_total_dose1 + 2],
+          cum_total_dose2: row[cumulativeTotalDoses.cum_total_dose2 + 2]
+        };
+        setCumTotal(populationComparisonData);
+      }
       for (const [key, value] of Object.entries(selection)) {
         if (dataIndex === dataSet.length - 1) {
           pieData.push({ value: row[value + 2], name: key });
@@ -222,6 +230,9 @@ const App = () => {
         justifyContent="center"
         alignItems="flex-start"
       >
+        <Grid sm={12} md={12} item>
+          {cumTotal && <BarChart data={cumTotal} />}
+        </Grid>
         <Grid sm={12} md={6} item>
           {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
         </Grid>
