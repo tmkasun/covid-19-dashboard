@@ -44,8 +44,8 @@ const App = () => {
       const parsedData = await Papa.parse(jsonData);
       setGithubData(parsedData.data);
     };
-    setGithubData(sampleData.data);
-    // asyncFun();
+    // setGithubData(sampleData.data);
+    asyncFun();
   }, []);
   useEffect(() => {
     if (!githubData) {
