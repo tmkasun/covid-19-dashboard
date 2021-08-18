@@ -67,7 +67,7 @@ export default function HideAppBar(props) {
         <AppBar variant="dense">
           <Toolbar>
             <Typography className={classes.title} variant="h6">
-              🇱🇰 Covid-19 Stats
+              🇱🇰 Covid-19 Stats.
             </Typography>
             <FormControl component="fieldset">
               <RadioGroup
