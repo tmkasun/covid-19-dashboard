@@ -13,10 +13,10 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 
+import dayjs from "dayjs";
+var relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
 import StyledSelect from "./StyledSelect";
 
 function HideOnScroll(props) {
@@ -56,6 +56,7 @@ export default function HideAppBar(props) {
     isLoading,
     lastXDays,
     setLastXDays,
+    lastUpdated,
     ...rest
   } = props;
   const classes = useStylesAppBar();
@@ -66,7 +67,7 @@ export default function HideAppBar(props) {
         <AppBar variant="dense">
           <Toolbar>
             <Typography className={classes.title} variant="h6">
-              Stats
+              🇱🇰 Covid-19 Stats
             </Typography>
             <FormControl component="fieldset">
               <RadioGroup
@@ -112,6 +113,9 @@ export default function HideAppBar(props) {
         </AppBar>
       </HideOnScroll>
       <Toolbar />
+      <Box fontWeight="fontWeightMedium" color="info.main" mt={2}>
+        Last updated: {dayjs().to(dayjs.unix(lastUpdated[0]))}
+      </Box>
       <Box mt={5}>
         {isLoading && <LinearProgress />}
         {children}

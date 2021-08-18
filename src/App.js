@@ -33,6 +33,7 @@ const App = () => {
   const [githubData, setGithubData] = useState(null);
   const [lastXDays, setLastXDays] = useState(0);
   const [cumTotal, setCumTotal] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
     const asyncFun = async () => {
@@ -43,15 +44,14 @@ const App = () => {
       const parsedData = await Papa.parse(jsonData);
       setGithubData(parsedData.data);
     };
-    // setGithubData(sampleData.data);
-    asyncFun();
+    setGithubData(sampleData.data);
+    // asyncFun();
   }, []);
   useEffect(() => {
     if (!githubData) {
       return;
     }
     const columns = githubData[0].slice(2);
-    // console.log(columns);
     const cumulativeData = {};
     const cumulativeTotalDoses = {};
     const cumulativeWithoutTotalDoses = {};
@@ -90,14 +90,12 @@ const App = () => {
         key.replace("cum_", "").split("_").join(" ").capitalize()
       ] = value;
     }
-    console.log(selection);
     const dataLength = githubData.length - 1;
-    console.log(dataLength - lastXDays);
     const dataSet =
       lastXDays === 0
         ? githubData.slice(0, -1)
         : githubData.slice(dataLength - lastXDays, -1);
-    console.log(dataSet.length);
+    setLastUpdated(dataSet[dataLength - 1]);
     const yAxisData = {};
     const xAxisData = [];
     const pieData = [];
@@ -135,10 +133,6 @@ const App = () => {
 
       dataIndex += 1;
     }
-    console.log(Object.values(yAxisData));
-    console.log("pieData");
-    console.log(pieData);
-    console.log("Object.values(yAxisDatsa)");
 
     let opts = {
       title: {},
@@ -218,6 +212,7 @@ const App = () => {
 
   return (
     <Base
+      lastUpdated={lastUpdated}
       setLastXDays={setLastXDays}
       lastXDays={lastXDays}
       isLoading={!githubData}
