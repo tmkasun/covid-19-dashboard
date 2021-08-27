@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Papa from "papaparse";
 import sampleData from "./tests/data";
+import TimeSelector from "./libs/TimeSelector"
 
 import LineChart from "./libs/LineChart";
 import PieChart from "./libs/PieChart";
 import BarChart from "./libs/BarChart";
 import Base from "./libs/Base";
 import "./styles.css";
+import VaxMap from './libs/VaxMap'
 
 console.clear();
 String.prototype.capitalize = function () {
@@ -205,37 +207,38 @@ const App = () => {
         }
       ]
     };
-    debugger;
     setPieChartOptions(pieOpts);
     setLineChartOptions(opts);
   }, [lastXDays, githubData, dataType]);
 
   return (
-    <Base
-      lastUpdated={lastUpdated}
-      setLastXDays={setLastXDays}
-      lastXDays={lastXDays}
-      isLoading={!githubData}
-      dataType={dataType}
-      setDataType={setDataType}
-    >
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
-      >
-        <Grid sm={12} md={12} item>
-          {cumTotal && <BarChart data={cumTotal} />}
-        </Grid>
-        <Grid sm={12} md={6} item>
-          {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
-        </Grid>
-        <Grid sm={12} md={6} item>
-          {pieChartOptions && <PieChart options={pieChartOptions} />}
-        </Grid>
-      </Grid>
-    </Base>
+    // <Base
+    //   lastUpdated={lastUpdated}
+    //   setLastXDays={setLastXDays}
+    //   lastXDays={lastXDays}
+    //   isLoading={!githubData}
+    //   dataType={dataType}
+    //   setDataType={setDataType}
+    // >
+    //   <Grid
+    //     container
+    //     direction="row"
+    //     justifyContent="center"
+    //     alignItems="flex-start"
+    //   >
+    //     <Grid sm={12} md={12} item>
+    //       {cumTotal && <BarChart data={cumTotal} />}
+    //     </Grid>
+    //     <Grid sm={12} md={6} item>
+    //       <TimeSelector />
+    //       {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
+    //     </Grid>
+    //     <Grid sm={12} md={6} item>
+    //       {pieChartOptions && <PieChart options={pieChartOptions} />}
+    //     </Grid>
+    //   </Grid>
+    // </Base>
+    <VaxMap/>
   );
 };
 
