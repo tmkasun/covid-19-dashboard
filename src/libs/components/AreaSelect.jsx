@@ -1,17 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import NavigationIcon from '@material-ui/icons/Navigation';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import { green } from '@material-ui/core/colors';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        margin: theme.spacing(1),
+        position: 'relative',
+    },
+    fabProgress: {
+        color: green[500],
+        position: 'absolute',
+        top: -1,
+        left: -1,
+        zIndex: 1,
+    },
+}));
 
 export default function AreaSelect(props) {
-    const {getLocationHandler} = props;
+    const { onLocationChange } = props;
+    const [locationStatus, setLocationStatus] = useState(null);
+    const [isLocating, setIsLocating] = useState(null);
+    const getLocationHandler = () => {
+        setIsLocating(true)
+        navigator.geolocation.getCurrentPosition((position) => {
+            onLocationChange(position);
+            setLocationStatus(null)
+            setIsLocating(false)
+        },
+            () => {
+                setLocationStatus('Unable to retrieve your location');
+                setIsLocating(false)
+            });
+    }
+    const classes = useStyles();
     return (
-        <Box display='flex'>
+        <Box justifyContent='center' alignItems='center' display='flex'>
             <Autocomplete
                 id="area-select"
                 options={top100Films}
@@ -20,7 +49,13 @@ export default function AreaSelect(props) {
                 renderInput={(params) => <TextField
                     {...params} label="Living Area" variant="outlined" />}
             />
-            <Button onClick={getLocationHandler} color="primary"><NavigationIcon /></Button>
+            <Box className={classes.wrapper}>
+                <IconButton color="primary" onClick={getLocationHandler} aria-label="delete">
+                    <NavigationIcon />
+                </IconButton>
+                {isLocating && <CircularProgress size={35} className={classes.fabProgress} />}
+            </Box>
+
         </Box>
     );
 }
