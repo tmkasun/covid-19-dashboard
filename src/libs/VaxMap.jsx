@@ -7,6 +7,8 @@ import AreaSelect from './components/AreaSelect'
 import './css/map.css'
 const customMarker = new L.divIcon({ html: '<div class="pin"></div> <div class="pin-effect"></div>' });
 
+// https://opencagedata.com/demo
+
 function ChangeView({ center, zoom }) {
     const map = useMap();
     map.setView(center, zoom);
