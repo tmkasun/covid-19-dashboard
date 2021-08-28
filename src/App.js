@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import Papa from "papaparse";
 import sampleData from "./tests/data";
-import TimeSelector from "./libs/TimeSelector"
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import DataController from "./libs/components/DataController"
 
 import LineChart from "./libs/LineChart";
 import PieChart from "./libs/PieChart";
@@ -10,11 +13,24 @@ import BarChart from "./libs/BarChart";
 import Base from "./libs/Base";
 import "./styles.css";
 import VaxMap from './libs/VaxMap'
+import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
-console.clear();
+import dayjs from "dayjs";
+var relativeTime = require("dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
+
+
+const SectionSeperator = () => (
+    <Grid item sm={12}>
+        <Box boxShadow={3} my={2}>
+            <Divider />
+        </Box>
+    </Grid>
+)
 /**
  *
  * https://echarts.apache.org/examples/en/editor.html?c=pie-simple
@@ -207,7 +223,6 @@ const App = () => {
 
     return (
         <Base
-            lastUpdated={lastUpdated}
             setLastXDays={setLastXDays}
             lastXDays={lastXDays}
             isLoading={!githubData}
@@ -220,18 +235,37 @@ const App = () => {
                 justifyContent="center"
                 alignItems="flex-start"
             >
+                <Grid item sm={12}>
+                    <VaxMap />
+                </Grid>
+                <SectionSeperator />
                 <Grid sm={12} md={12} item>
+                    <Grid item xs={12}>
+                        <Typography style={{ textAlign: 'center' }} variant="h4" component="h4" gutterBottom>Total Vaccinations</Typography>
+                    </Grid>
+                    <Box fontWeight="fontWeightMedium">
+                        Last updated: <Tooltip title={lastUpdated && dayjs.unix(lastUpdated[0]).toString()}>
+                            <Chip variant="outlined" label={lastUpdated && dayjs().to(dayjs.unix(lastUpdated[0]))} color="primary" size="small" />
+                        </Tooltip>
+                    </Box>
                     {cumTotal && <BarChart data={cumTotal} />}
                 </Grid>
+                <SectionSeperator />
+                <Grid sm={12} md={12} item>
+                    <DataController
+                        setLastXDays={setLastXDays}
+                        lastXDays={lastXDays}
+                        isLoading={!githubData}
+                        dataType={dataType}
+                        setDataType={setDataType}
+                    />
+                </Grid>
                 <Grid sm={12} md={6} item>
-                    <TimeSelector />
+
                     {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
                 </Grid>
                 <Grid sm={12} md={6} item>
                     {pieChartOptions && <PieChart options={pieChartOptions} />}
-                </Grid>
-                <Grid item sm={12}>
-                    <VaxMap />
                 </Grid>
             </Grid>
         </Base>

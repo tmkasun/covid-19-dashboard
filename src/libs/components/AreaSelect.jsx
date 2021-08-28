@@ -5,6 +5,7 @@ import { green } from '@material-ui/core/colors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import PlaceSelector from './PlaceSelector'
 
@@ -54,9 +55,11 @@ export default function AreaSelect(props) {
         <Box justifyContent='center' alignItems='center' display='flex'>
             <PlaceSelector onValueChange={onSelectedLocationChangeHandler} />
             <Box className={classes.wrapper}>
-                <IconButton color="primary" onClick={getLocationHandler} aria-label="delete">
-                    <NavigationIcon />
-                </IconButton>
+                <Tooltip title='Locate me'>
+                    <IconButton color="primary" onClick={getLocationHandler} aria-label="delete">
+                        <NavigationIcon />
+                    </IconButton>
+                </Tooltip>
                 {isLocating && <CircularProgress size={35} className={classes.fabProgress} />}
             </Box>
             {isLocating === false && locationStatus && <Box display='block'>

@@ -8,18 +8,8 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Box from "@material-ui/core/Box";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Slide from "@material-ui/core/Slide";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
-import Chip from '@material-ui/core/Chip';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import dayjs from "dayjs";
-var relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime);
-import StyledSelect from "./StyledSelect";
+import Link from '@material-ui/core/Link';
 
 function HideOnScroll(props) {
   const { children, window } = props;
@@ -52,13 +42,8 @@ const useStylesAppBar = makeStyles((theme) => ({
 
 export default function HideAppBar(props) {
   const {
-    dataType,
-    setDataType,
     children,
     isLoading,
-    lastXDays,
-    setLastXDays,
-    lastUpdated,
     ...rest
   } = props;
   const classes = useStylesAppBar();
@@ -71,58 +56,21 @@ export default function HideAppBar(props) {
             <Typography className={classes.title} variant="h6">
               🇱🇰 Covid-19 Stats.
             </Typography>
-            <FormControl component="fieldset">
-              <RadioGroup
-                row
-                aria-label="position"
-                name="position"
-                onChange={(e) => {
-                  setDataType(e.currentTarget.value);
-                }}
-                value={dataType}
-                defaultValue="total"
-              >
-                <FormControlLabel
-                  value="total"
-                  control={<Radio color="secondary" />}
-                  label="Total"
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="Dose1"
-                  control={<Radio color="secondary" />}
-                  label={
-                    <>
-                      1<sup>st</sup> Dose
-                    </>
-                  }
-                  labelPlacement="top"
-                />
-                <FormControlLabel
-                  value="dose2"
-                  control={<Radio color="secondary" />}
-                  label={
-                    <>
-                      2<sup>nd</sup> Dose
-                    </>
-                  }
-                  labelPlacement="top"
-                />
-              </RadioGroup>
-            </FormControl>
-            <StyledSelect lastXDays={lastXDays} setLastXDays={setLastXDays} />
           </Toolbar>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-      <Box fontWeight="fontWeightMedium" mt={2} ml={1}>
-        Last updated: <Tooltip title={lastUpdated && dayjs.unix(lastUpdated[0]).toString()}>
-          <Chip variant="outlined" label={lastUpdated && dayjs().to(dayjs.unix(lastUpdated[0]))} color="primary" size="small" />
-        </Tooltip>
-      </Box>
       <Box mt={5}>
         {isLoading && <LinearProgress />}
         {children}
+      </Box>
+      <Box color="text.secondary" mt={5} pb={3}>
+        Data source : <Link
+          target="_blank"
+          rel="noopener"
+          href={'https://github.com/nuuuwan/covid19/tree/data'}>
+          GitHub
+        </Link>
       </Box>
     </>
   );

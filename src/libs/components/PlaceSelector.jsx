@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import throttle from 'lodash.throttle';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -20,6 +20,7 @@ export default function PlaceSelector(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(null);
     const [inputValue, setInputValue] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(false);
     const [options, setOptions] = React.useState([]);
 
     React.useEffect(() => {
@@ -28,6 +29,7 @@ export default function PlaceSelector(props) {
     const fetchX = React.useMemo(
         () =>
             throttle((inputValue, callback) => {
+                setIsLoading(true);
                 fetch(`https://api.opencagedata.com/geocode/v1/json?q=${inputValue}&key=47a4473508fc49518ad05cb0d84f94b8&countrycode=lk`)
                     .then(r => r.json()).then(callback)
             }, 200),
@@ -42,7 +44,7 @@ export default function PlaceSelector(props) {
             setOptions(value ? [value] : []);
             return undefined;
         }
-        if (inputValue.length > 2) {
+        if (inputValue.length > 1) {
             fetchX(inputValue, (results) => {
                 let newOptions = [];
 
@@ -55,6 +57,7 @@ export default function PlaceSelector(props) {
                 }
 
                 setOptions(newOptions);
+                setIsLoading(false);
             });
         }
 
@@ -79,8 +82,9 @@ export default function PlaceSelector(props) {
                 setInputValue(newInputValue);
             }}
             renderInput={(params) => (
-                <TextField {...params} label="Add a location" variant="outlined" fullWidth />
+                <TextField {...params} label="Location (i:e Ganemulla, Moratuwa ... )" variant="outlined" fullWidth />
             )}
+            loading={isLoading}
             renderOption={(option) => {
                 return (
                     <Grid container alignItems="center">

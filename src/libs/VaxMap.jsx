@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -54,7 +55,12 @@ const VaxMap = () => {
     const [showDose1, setShowDose1] = useState(true);
     const [showDose2, setShowDose2] = useState(true);
     const [haveVaccine, setHaveVaccine] = useState(true);
-
+    const reset = () => {
+        setShowDose1(true);
+        setCurrentLocation(null);
+        setShowDose2(true);
+        setHaveVaccine(true);
+    }
     const mapCenter = currentLocation ?
         [currentLocation.coords.latitude, currentLocation.coords.longitude] : [7.79, 80.91]
     const zoom = currentLocation ? 13 : 8
@@ -85,11 +91,9 @@ const VaxMap = () => {
         <Grid
             container
             direction="row"
-            justifyContent="center"
+            justifyContent="flex-end"
             alignItems="flex-start"
-            spacing={4}
         >
-            <Grid item sm={1} />
             <Grid container
                 direction="row"
                 justifyContent="center"
@@ -144,7 +148,11 @@ const VaxMap = () => {
                             inputProps={{ 'aria-label': 'Have vaccines' }}
                         /> Have vaccines  available
                     </Box>
-
+                </Grid>
+                <Grid item xs={12}>
+                    <Box my={3}>
+                        <Button style={{ color: '#a20000' }} onClick={reset} >RESET</Button>
+                    </Box>
                 </Grid>
 
             </Grid>
@@ -182,7 +190,7 @@ const VaxMap = () => {
                     </MapContainer>
                 </Box>
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
 
