@@ -64,11 +64,18 @@ export default function HideAppBar(props) {
         {isLoading && <LinearProgress />}
         {children}
       </Box>
-      <Box color="text.secondary" mt={5} pb={3}>
+      <Box color="text.secondary" mt={5}>
         Data source : <Link
           target="_blank"
           rel="noopener"
           href={'https://github.com/nuuuwan/covid19/tree/data'}>
+          GitHub
+        </Link>
+        {'    '}
+        Source code : <Link
+          target="_blank"
+          rel="noopener"
+          href={'https://github.com/tmkasun/covid-19-dashboard/tree/main/'}>
           GitHub
         </Link>
       </Box>
