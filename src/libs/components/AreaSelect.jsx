@@ -25,13 +25,19 @@ const useStyles = makeStyles((theme) => ({
 export default function AreaSelect(props) {
     const { onLocationChange } = props;
     const [locationStatus, setLocationStatus] = useState(null);
+    const [inputValue, setInputValue] = React.useState('');
     const [isLocating, setIsLocating] = useState(null);
     const getLocationHandler = () => {
         setIsLocating(true)
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition(async (position) => {
             onLocationChange(position);
             setLocationStatus(null)
             setIsLocating(false)
+            const { latitude, longitude } = position.coords;
+            const response = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=47a4473508fc49518ad05cb0d84f94b8`)
+            const geoData = await response.json()
+            const bestMatch = geoData.results[0];
+            setInputValue(bestMatch.components.town || bestMatch.formatted)
         },
             () => {
                 setLocationStatus('Unable to retrieve your location');
@@ -43,6 +49,10 @@ export default function AreaSelect(props) {
         <Box justifyContent='center' alignItems='center' display='flex'>
             <Autocomplete
                 id="area-select"
+                inputValue={inputValue}
+                onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue)
+                }}
                 options={top100Films}
                 getOptionLabel={(option) => option.title}
                 style={{ width: 300 }}
