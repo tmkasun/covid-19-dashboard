@@ -54,13 +54,13 @@ export default function HideAppBar(props) {
         <AppBar variant="elevation">
           <Toolbar>
             <Typography className={classes.title} variant="h6">
-              🇱🇰 Covid-19 Stats.
+              🇱🇰 Covid-19 Dashboard
             </Typography>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-      <Box mt={5}>
+      <Box mt={2}>
         {isLoading && <LinearProgress />}
         {children}
       </Box>

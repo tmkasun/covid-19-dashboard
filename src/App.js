@@ -18,7 +18,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import dayjs from "dayjs";
 var relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime);
+dayjs.extend(relativeTime, { rounding: Math.floor });
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };

@@ -64,9 +64,15 @@ const VaxMap = () => {
     const mapCenter = currentLocation ?
         [currentLocation.coords.latitude, currentLocation.coords.longitude] : [7.79, 80.91]
     const zoom = currentLocation ? 13 : 8
-
+    const fuzzyKeyDeDup = {};// Remove duplicate fuzzy keys ?
     const filteredData = data && data.filter((center) => {
-        const { district } = center;
+
+        const { district, fuzzy_key } = center;
+        const isExist = fuzzyKeyDeDup[fuzzy_key];
+        if (isExist) {
+            return false;
+        }
+        fuzzyKeyDeDup[fuzzy_key] = center;
         if (!district) {
             return false;
         }
@@ -110,7 +116,7 @@ const VaxMap = () => {
                 <Grid item xs={12}>
                     <Box my={3} >
                         <Typography variant="h6" component="h6">
-                            Show COVID-19 Vaccines
+                            Show COVID-19 Vaccination Centers
                         </Typography>
                     </Box>
                     <Box>
@@ -149,10 +155,25 @@ const VaxMap = () => {
                         /> Have vaccines  available
                     </Box>
                 </Grid>
-                <Grid item xs={12}>
-                    <Box my={3}>
-                        <Button style={{ color: '#a20000' }} onClick={reset} >RESET</Button>
-                    </Box>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    item xs={12}>
+                    <Grid item xs={12} sm={6}>
+                        <Box my={3}>
+                            <Button style={{ color: '#a20000' }} onClick={reset} >RESET</Button>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+
+                        <Box borderRadius={16} border={1} color="success.main" textAlign='center' display='block' mr={7}>
+                            <Typography variant="subtitle2">
+                                <Box  color="text.secondary" display='inline'> Found  </Box>{filteredData && filteredData.length}
+                            </Typography>
+                        </Box>
+                    </Grid>
                 </Grid>
 
             </Grid>
