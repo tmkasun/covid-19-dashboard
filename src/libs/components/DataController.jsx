@@ -2,6 +2,7 @@ import React from "react";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Box from '@material-ui/core/Box';
 import FormControl from "@material-ui/core/FormControl";
 
 import StyledSelect from "../StyledSelect";
@@ -15,7 +16,7 @@ const DataController = (props) => {
         setLastXDays,
     } = props;
     return (
-        <>
+        <Box borderColor="grey.500" border={1} borderRadius={16}>
             <FormControl component="fieldset">
                 <RadioGroup
                     row
@@ -56,7 +57,7 @@ const DataController = (props) => {
                 </RadioGroup>
             </FormControl>
             <StyledSelect lastXDays={lastXDays} setLastXDays={setLastXDays} />
-        </>
+        </Box>
     )
 }
 

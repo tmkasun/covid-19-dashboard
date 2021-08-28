@@ -11,6 +11,9 @@ import Slide from "@material-ui/core/Slide";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from '@material-ui/core/Link';
 
+import useLastCommit from './hooks/useLastCommit'
+import LastUpdated from './components/LastUpdated'
+
 function HideOnScroll(props) {
   const { children, window } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -47,6 +50,8 @@ export default function HideAppBar(props) {
     ...rest
   } = props;
   const classes = useStylesAppBar();
+  const [latestVax, latestVaxError, isLoadingLatestVax] = useLastCommit('covid19.lk_vax_centers.latest.tsv');
+
   return (
     <>
       <CssBaseline />
@@ -60,7 +65,9 @@ export default function HideAppBar(props) {
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-      <Box mt={2}>
+      <Box mt={1}>
+      <LastUpdated isLoading={isLoadingLatestVax} time={latestVax && latestVax.commit.committer.date} />
+
         {isLoading && <LinearProgress />}
         {children}
       </Box>

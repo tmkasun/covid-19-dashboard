@@ -5,7 +5,10 @@ import Papa from "papaparse";
 import sampleData from "./tests/data";
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+
 import DataController from "./libs/components/DataController"
+import LastUpdated from "./libs/components/LastUpdated"
+import useLastCommit from "./libs/hooks/useLastCommit";
 
 import LineChart from "./libs/LineChart";
 import PieChart from "./libs/PieChart";
@@ -13,12 +16,6 @@ import BarChart from "./libs/BarChart";
 import Base from "./libs/Base";
 import "./styles.css";
 import VaxMap from './libs/VaxMap'
-import Chip from '@material-ui/core/Chip';
-import Tooltip from '@material-ui/core/Tooltip';
-
-import dayjs from "dayjs";
-var relativeTime = require("dayjs/plugin/relativeTime");
-dayjs.extend(relativeTime, { rounding: Math.floor });
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -52,6 +49,7 @@ const App = () => {
     const [lastXDays, setLastXDays] = useState(0);
     const [cumTotal, setCumTotal] = useState(null);
     const [lastUpdated, setLastUpdated] = useState(null);
+    const [latestVax, latestVaxError, isLoadingLatestVax] = useLastCommit('covid19.epid.vaxs.latest.tsv');
 
     useEffect(() => {
         const asyncFun = async () => {
@@ -243,15 +241,12 @@ const App = () => {
                     <Grid item xs={12}>
                         <Typography style={{ textAlign: 'center' }} variant="h4" component="h4" gutterBottom>Total Vaccinations</Typography>
                     </Grid>
-                    <Box fontWeight="fontWeightMedium">
-                        Last updated: <Tooltip title={lastUpdated && dayjs.unix(lastUpdated[0]).toString()}>
-                            <Chip variant="outlined" label={lastUpdated && dayjs().to(dayjs.unix(lastUpdated[0]))} color="primary" size="small" />
-                        </Tooltip>
-                    </Box>
+                    <LastUpdated isLoading={isLoadingLatestVax} time={latestVax && latestVax.commit.committer.date} />
                     {cumTotal && <BarChart data={cumTotal} />}
                 </Grid>
                 <SectionSeperator />
-                <Grid sm={12} md={12} item>
+                <Grid sm={12} md={3} item />
+                <Grid sm={12} md={6} item>
                     <DataController
                         setLastXDays={setLastXDays}
                         lastXDays={lastXDays}
@@ -260,12 +255,14 @@ const App = () => {
                         setDataType={setDataType}
                     />
                 </Grid>
+                <Grid sm={12} md={3} item />
                 <Grid xs={12} sm={12} md={6} item>
-
-                    {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
+                    <Box mt={5}>
+                        {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
+                    </Box>
                 </Grid>
                 <Grid xm={12} sm={12} md={6} item>
-                    <Box minWidth={300} width={1}>
+                    <Box mt={5} minWidth={300} width={1}>
                         {pieChartOptions && <PieChart options={pieChartOptions} />}
                     </Box>
                 </Grid>

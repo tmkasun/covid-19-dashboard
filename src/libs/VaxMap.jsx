@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import AreaSelect from './components/AreaSelect'
 import useVaccinationCenters from './hooks/useVaccinationCenters'
@@ -119,25 +120,31 @@ const VaxMap = () => {
                             Show COVID-19 Vaccination Centers
                         </Typography>
                     </Box>
-                    <Box>
-                        <Checkbox
-                            disabled={!haveVaccine}
-                            checked={showDose1}
-                            onChange={(e) => setShowDose1(e.target.checked)}
-                            color="primary"
-                            inputProps={{ 'aria-label': 'Dose 2' }}
-                        /> 1<sup>st</sup> Dose
+                    <Box ml={3}>
+                        <FormControlLabel
+                            control={<Checkbox
+                                disabled={!haveVaccine}
+                                checked={showDose1}
+                                onChange={(e) => setShowDose1(e.target.checked)}
+                                color="primary"
+                                inputProps={{ 'aria-label': 'Dose 2' }}
+                                name="d1" />}
+                            label={<>1<sup>st</sup> Dose</>}
+                        />
                     </Box>
-                    <Box>
-                        <Checkbox
-                            disabled={!haveVaccine}
-                            checked={showDose2}
-                            onChange={(e) => setShowDose2(e.target.checked)}
-                            color="primary"
-                            inputProps={{ 'aria-label': 'Dose 2' }}
-                        /> 2<sup>nd</sup> Dose
+                    <Box ml={3}>
+                        <FormControlLabel
+                            control={<Checkbox
+                                disabled={!haveVaccine}
+                                checked={showDose2}
+                                onChange={(e) => setShowDose2(e.target.checked)}
+                                color="primary"
+                                inputProps={{ 'aria-label': 'Dose 2' }}
+                                name="d2" />}
+                            label={<>2<sup>nd</sup> Dose</>}
+                        />
                     </Box>
-                    {!showDose1 && !showDose2 && "WTF ?"}
+                    {!showDose1 && !showDose2 && "Select at least 1"}
                 </Grid>
 
                 <Grid item xs={12}>
@@ -146,13 +153,16 @@ const VaxMap = () => {
                             Show Only Locations That
                         </Typography>
                     </Box>
-                    <Box>
-                        <Checkbox
-                            checked={haveVaccine}
-                            onChange={(e) => setHaveVaccine(e.target.checked)}
-                            color="primary"
-                            inputProps={{ 'aria-label': 'Have vaccines' }}
-                        /> Have vaccines  available
+                    <Box ml={3}>
+                        <FormControlLabel
+                            control={<Checkbox
+                                checked={haveVaccine}
+                                onChange={(e) => setHaveVaccine(e.target.checked)}
+                                color="primary"
+                                inputProps={{ 'aria-label': 'Have vaccines' }}
+                                name="allvax" />}
+                            label={<>Have vaccines  available</>}
+                        />
                     </Box>
                 </Grid>
                 <Grid
@@ -170,7 +180,7 @@ const VaxMap = () => {
 
                         <Box borderRadius={16} border={1} color="success.main" textAlign='center' display='block' mr={7}>
                             <Typography variant="subtitle2">
-                                <Box  color="text.secondary" display='inline'> Found  </Box>{filteredData && filteredData.length}
+                                <Box color="text.secondary" display='inline'> Found  </Box>{filteredData && filteredData.length}
                             </Typography>
                         </Box>
                     </Grid>
