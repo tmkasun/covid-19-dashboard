@@ -4,6 +4,9 @@ import Box from '@material-ui/core/Box';
 import CardActions from '@material-ui/core/CardActions';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
+//https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=[YOUR_LAT],[YOUR_LNG]
+// https://www.vaccines.gov/search/
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
@@ -61,6 +64,14 @@ export default function MarkerCard(props) {
         <Box className={classes.root}>
             <Box>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    Center
+                </Typography>
+                <Box ml={3}>
+                    <Typography variant="h6" component="h6">
+                        <code>{vaccineCenter.center}</code>
+                    </Typography>
+                </Box>
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Address
                 </Typography>
                 <Box ml={3}>
@@ -89,7 +100,12 @@ export default function MarkerCard(props) {
                 </Box>
             </Box>
             <CardActions>
-                <Button variant='outlined' color='primary' size="small">Navigate</Button>
+                <Link
+                    target="_blank"
+                    rel="noopener"
+                    href={`https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${vaccineCenter.lat},${vaccineCenter.lng}`}>
+                    <Button variant='outlined' color='primary' size="small">Directions</Button>
+                </Link>
             </CardActions>
         </Box >
     );

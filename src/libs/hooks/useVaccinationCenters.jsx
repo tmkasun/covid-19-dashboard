@@ -19,8 +19,8 @@ export default function useVaccinationCenters() {
             const parsedData = await Papa.parse(jsonData, {header: true});
             setData(parsedData.data);
         };
-        setData(sample);
-        // asyncFun();
+        // setData(sample);
+        asyncFun();
     }, [])
     return [data, error, isLoading]
 }

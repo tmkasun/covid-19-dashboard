@@ -13,6 +13,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
+import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import dayjs from "dayjs";
 var relativeTime = require("dayjs/plugin/relativeTime");
@@ -64,7 +66,7 @@ export default function HideAppBar(props) {
     <>
       <CssBaseline />
       <HideOnScroll {...rest}>
-        <AppBar variant="dense">
+        <AppBar variant="elevation">
           <Toolbar>
             <Typography className={classes.title} variant="h6">
               🇱🇰 Covid-19 Stats.
@@ -113,8 +115,10 @@ export default function HideAppBar(props) {
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-      <Box fontWeight="fontWeightMedium" color="info.main" mt={2}>
-        Last updated: {lastUpdated && dayjs().to(dayjs.unix(lastUpdated[0]))}
+      <Box fontWeight="fontWeightMedium" mt={2} ml={1}>
+        Last updated: <Tooltip title={lastUpdated && dayjs.unix(lastUpdated[0]).toString()}>
+          <Chip variant="outlined" label={lastUpdated && dayjs().to(dayjs.unix(lastUpdated[0]))} color="primary" size="small" />
+        </Tooltip>
       </Box>
       <Box mt={5}>
         {isLoading && <LinearProgress />}
