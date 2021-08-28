@@ -260,12 +260,14 @@ const App = () => {
                         setDataType={setDataType}
                     />
                 </Grid>
-                <Grid sm={12} md={6} item>
+                <Grid xs={12} sm={12} md={6} item>
 
                     {lineChartOptions && <LineChart id="c1" options={lineChartOptions} />}
                 </Grid>
-                <Grid sm={12} md={6} item>
-                    {pieChartOptions && <PieChart options={pieChartOptions} />}
+                <Grid xm={12} sm={12} md={6} item>
+                    <Box minWidth={300} width={1}>
+                        {pieChartOptions && <PieChart options={pieChartOptions} />}
+                    </Box>
                 </Grid>
             </Grid>
         </Base>

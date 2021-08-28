@@ -52,7 +52,7 @@ export default function AreaSelect(props) {
     }
     const classes = useStyles();
     return (
-        <Box justifyContent='center' alignItems='center' display='flex'>
+        <Box width={1} justifyContent='center' alignItems='center' display='flex'>
             <PlaceSelector onValueChange={onSelectedLocationChangeHandler} />
             <Box className={classes.wrapper}>
                 <Tooltip title='Locate me'>

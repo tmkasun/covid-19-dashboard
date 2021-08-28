@@ -66,7 +66,7 @@ export default function PlaceSelector(props) {
     return (
         <Autocomplete
             id="klocation"
-            style={{ width: 500 }}
+            style={{ width: '100%' }}
             getOptionLabel={(option) => option.formatted}
             filterOptions={(x) => x}
             options={options}
