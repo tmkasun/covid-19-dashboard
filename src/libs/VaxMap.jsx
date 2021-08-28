@@ -168,16 +168,20 @@ const VaxMap = () => {
                             tileSize={512}
                             zoomOffset={-1}
                         />
-                        {filteredData && filteredData.map((vaccineCenter) => (
-                            <Marker
-                                key={vaccineCenter.fuzzy_key}
-                                icon={getMarker(vaccineCenter)}
-                                position={[vaccineCenter.lat, vaccineCenter.lng]}>
-                                <Popup>
-                                    <MarkerCard vaccineCenter={vaccineCenter} />
-                                </Popup>
-                            </Marker>
-                        )
+                        {filteredData && filteredData.map((vaccineCenter) => {
+                            const { lat, lng, ps_lat, ps_lng } = vaccineCenter;
+                            const position = lat ? [lat, lng] : [ps_lat, ps_lng]
+                            return (
+                                <Marker
+                                    key={vaccineCenter.fuzzy_key}
+                                    icon={getMarker(vaccineCenter)}
+                                    position={position}>
+                                    <Popup>
+                                        <MarkerCard vaccineCenter={vaccineCenter} />
+                                    </Popup>
+                                </Marker>
+                            )
+                        }
                         )}
                         {currentLocation &&
                             <Marker
